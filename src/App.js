@@ -10,10 +10,9 @@ function App() {
   ]);
 
   let [좋아요, 좋아요변경] = useState([0, 0, 0]); // 1.개별로 좋아요 구현을 위해 우선 좋아요를 Array로 바꾼다.
-
   let [modal, modal변경] = useState(false);
-
   let [modal2, modal2변경] = useState(false);
+  let [방금누른제목, 방금누른제목변경] = useState(0);
 
   function 제목바꾸기() {
     var newArray = [...글제목];
@@ -52,7 +51,11 @@ function App() {
       {글제목.map((a, i) => {
         return (
           <div className="list">
-            <h3>
+            <h3
+              onClick={() => {
+                방금누른제목변경(i);
+              }}
+            >
               {a} <span onClick={() => 좋아요바꾸기(i)}> ❤ </span>
               {좋아요[i]}
             </h3>
@@ -61,7 +64,10 @@ function App() {
           </div>
         );
       })}
-      {modal === true ? <Modal /> : null}
+
+      {modal === true ? (
+        <Modal 글제목={글제목} 방금누른제목={방금누른제목} />
+      ) : null}
       <button onClick={() => modal변경(!modal)}>
         {modal === true ? "숨기기" : "보여주기"}
       </button>
@@ -72,10 +78,10 @@ function App() {
   );
 }
 
-function Modal() {
+function Modal(props) {
   return (
     <div className="modal">
-      <h2>제목</h2>
+      <h2>제목 : {props.글제목[props.방금누른제목]}</h2>
       <p>날짜</p>
       <p>상세내용</p>
     </div>
