@@ -107,6 +107,23 @@ function App() {
   let [modalShow, modalShowState] = useState(false);
   let [modaltitle, modaltitleState] = useState(0);
 
+  let [입력값, 입력값변경] = useState("");
+
+  function likeChange(i) {
+    let newLike = [...like];
+    newLike[i]++;
+    likeState(newLike);
+  }
+
+  function titleChange(inputTitle) {
+    let newTitle = [...title];
+    newTitle.unshift(inputTitle);
+    let newLike = [...like];
+    newLike.unshift(0);
+    likeState(newLike);
+    titleState(newTitle);
+  }
+
   return (
     <div className="App">
       <div className="black-nav">
@@ -115,7 +132,7 @@ function App() {
 
       {title.map((t, i) => {
         return (
-          <div className="list">
+          <div className="list" key={i}>
             <h3 onClick={() => modaltitleState(i)}>
               {t}
               <span onClick={() => likeChange(i)}> ❤ {like[i]}</span>
@@ -126,18 +143,34 @@ function App() {
         );
       })}
 
+      {/* {입력값}
+      <input
+        onChange={e => {
+          입력값변경(e.target.value);
+        }}
+      /> */}
+
+      <div className="publish">
+        <input
+          onChange={e => {
+            입력값변경(e.target.value);
+          }}
+        />
+        <button
+          onClick={() => {
+            titleChange(입력값);
+          }}
+        >
+          저장
+        </button>
+      </div>
+
       <button onClick={() => modalShowState(!modalShow)}>
         {modalShow === true ? "숨기기" : "보여주기"}
       </button>
       {modalShow === true ? <Modal title={title} /> : null}
     </div>
   );
-
-  function likeChange(i) {
-    let newLike = [...like];
-    newLike[i]++;
-    likeState(newLike);
-  }
 
   function Modal(props) {
     return (
