@@ -11,6 +11,10 @@ function App() {
 
   let [좋아요, 좋아요변경] = useState([0, 0, 0]); // 1.개별로 좋아요 구현을 위해 우선 좋아요를 Array로 바꾼다.
 
+  let [modal, modal변경] = useState(false);
+
+  let [modal2, modal2변경] = useState(false);
+
   function 제목바꾸기() {
     var newArray = [...글제목];
     newArray[0] = "리액트 공부하기";
@@ -57,8 +61,13 @@ function App() {
           </div>
         );
       })}
-
-      <Modal />
+      {modal === true ? <Modal /> : null}
+      <button onClick={() => modal변경(!modal)}>
+        {modal === true ? "숨기기" : "보여주기"}
+      </button>
+      <hr />
+      <button onClick={() => modal2변경(!modal2)}>modal2</button>
+      {modal2 === true ? <Modal2 /> : null}
     </div>
   );
 }
@@ -68,6 +77,15 @@ function Modal() {
     <div className="modal">
       <h2>제목</h2>
       <p>날짜</p>
+      <p>상세내용</p>
+    </div>
+  );
+}
+
+function Modal2() {
+  return (
+    <div className="modal2">
+      <h2>제목</h2>
       <p>상세내용</p>
     </div>
   );
